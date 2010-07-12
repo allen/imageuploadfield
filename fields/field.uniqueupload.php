@@ -4,10 +4,10 @@
 
 	require_once(TOOLKIT . '/fields/field.upload.php');
 
-	class FieldUniqueUpload extends FieldUpload {
+	class FieldImageUpload extends FieldUpload {
 		public function __construct(&$parent){
 			parent::__construct($parent);
-			$this->_name = 'Unique File Upload';
+			$this->_name = 'Image Upload';
 		}
 
 		private function getUniqueFilename($filename) {
