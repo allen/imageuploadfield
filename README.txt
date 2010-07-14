@@ -4,14 +4,18 @@ Field: Image Upload
 Version: 1.0
 Author: Alistair Kearney
 Build Date: 2010-07-12
-Requirements: Symphony 2.0.7 or greater
+Requirements: Symphony 2.0.7 or greater, JIT Image Manipulation extension
 
+This field is for specifically uploading image files (PNG, GIF and JPEG). It
+has additional controls to limit file size, width and height. Also, it can 
+resize incoming images to have a maximum long edge by resizing accordingly.
 
 [Origin]
 
 	Based on "Unique File Upload" field by Michael Eichelsdoerfer, which 
 	is a variation of the 'Hashed Upload Field' extension by 
 	Rowan Lewis.
+	
 
 [Installation]
 

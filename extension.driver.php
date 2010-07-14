@@ -25,7 +25,6 @@
 				`id` int(11) unsigned NOT NULL auto_increment,
 				`field_id` int(11) unsigned NOT NULL,
 				`destination` varchar(255) NOT NULL,
-				`validator` varchar(50),
 				`maximum_filesize` int(11) unsigned,
 				`maximum_dimension_width` int(3) unsigned,
 				`maximum_dimension_height` int(3) unsigned,
