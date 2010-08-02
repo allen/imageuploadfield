@@ -382,7 +382,17 @@
 			}
 
 			## Its not an array, so just retain the current data and return
-			if(!is_array($data)) return self::__OK__;
+			if(!is_array($data)){
+				
+				$file = WORKSPACE . $data;
+				
+				if(!file_exists($file) || !is_readable($file)){
+					$message = __('The file uploaded is no longer available. Please check that it exists, and is readable.');
+					return self::__INVALID_FIELDS__;
+				}
+				
+				return self::__OK__;
+			}
 
 
 			if(!is_dir(DOCROOT . $this->get('destination') . '/')){
@@ -496,18 +506,37 @@
 
 			## Its not an array, so just retain the current data and return
 			if(!is_array($data)){
-
+	
 				$status = self::__OK__;
+				
 				$file = WORKSPACE . $data;
-				// Do a simple reconstruction of the file meta information. This is a workaround for
-				// bug which causes all meta information to be dropped
-				return array(
+				
+				$result = array(
 					'file' => $data,
-					'mimetype' => self::__sniffMIMEType($data),
-					'size' => (file_exists($file) && is_readable($file) ? filesize($file) : NULL),
-					'meta' => serialize(self::getMetaInfo(WORKSPACE . $data, self::__sniffMIMEType($data)))
+					'mimetype' => NULL,
+					'size' => NULL,
+					'meta' => NULL
 				);
+				
+				// Grab the existing entry data to preserve the MIME type and size information
+				if(isset($entry_id) && !is_null($entry_id)){
+					$row = Symphony::Database()->fetchRow(0, sprintf(
+						"SELECT `file`, `mimetype`, `size`, `meta` FROM `tbl_entries_data_%d` WHERE `entry_id` = %d", 
+						$this->get('id'), 
+						$entry_id
+					));
+					if(!empty($row)){
+						$result = $row;
+					}
+				}
+				
+				if(!file_exists($file) || !is_readable($file)){
+					$status = self::__INVALID_FIELDS__;
+					return $result;
+				}
 
+				return $result;
+	
 			}
 
 			if($simulate) return;
