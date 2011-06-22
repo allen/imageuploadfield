@@ -111,8 +111,12 @@
 			$label->setAttribute('class', $class);
 			if($this->get('required') != 'yes') $label->appendChild(new XMLElement('i', __('Optional')));
 
-			$span = new XMLElement('span');
-			if($data['file']) $span->appendChild(Widget::Anchor('/workspace' . $data['file'], URL . '/workspace' . $data['file']));
+			$span = new XMLElement('span',null,array('class'=>'frame'));
+			if($data['file']) {
+				$a = Widget::Anchor('/workspace' . $data['file'], URL . '/workspace' . $data['file']);
+				$a->setAttribute('style','max-width:80%');
+				$span->appendChild($a);
+			}
 
 			$span->appendChild(Widget::Input('fields'.$fieldnamePrefix.'['.$this->get('element_name').']'.$fieldnamePostfix, $data['file'], ($data['file'] ? 'hidden' : 'file')));
 
@@ -233,7 +237,7 @@
 				'/workspace/pages',
 				'/workspace/utilities'
 			);
-			$directories = General::listDirStructure(WORKSPACE, true, 'asc', DOCROOT, $ignore);	   	
+			$directories = General::listDirStructure(WORKSPACE, null, true, DOCROOT, $ignore);	   	
 
 			$label = Widget::Label(__('Destination Directory'));
 
